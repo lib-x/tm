@@ -18,7 +18,9 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: '1.27.3'
-          cache-dependency-path: sdk/go/go.sum
+          cache-dependency-path: |
+            sdk/go/go.sum
+            examples/quic-go/go.sum
       - uses: actions/setup-node@v4
         with:
           node-version: '26.12.0'

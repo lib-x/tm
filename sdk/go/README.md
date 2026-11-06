@@ -133,3 +133,7 @@ Stdout contains only packet hex; diagnostics use stderr.
 
 Protobuf models in `pb/tmp/v1` are generated centrally with Buf. Do not edit them
 or run an independent SDK-specific generator.
+
+## Runnable application demos
+
+See the [demo guide](../../examples/README.md) for interoperable Rust/Go/Node clients and servers, five concurrent application streams, flow control, file roundtrip, and transport bindings. All application data remains outside the core schema.

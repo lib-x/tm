@@ -17,3 +17,7 @@ let hello = session.start()?;
 Generated models in `src/generated` come exclusively from root `buf generate`; end users do not need Buf/protoc. The core contains no application messages. Define terminal/file/clipboard/event formats in your own application; fixed64 ping tokens preserve all 64 bits.
 
 Run `cargo test -p tunnel-mux` and `cargo run --example conformance -- endpoint initiator` (hex line protocol for integration testing). See root `docs/protocol-v1.md` for required carrier bindings and profiles. This SDK does not implement a desktop codec, relay server or automatic session replay.
+
+## Runnable application demos
+
+See the [demo guide](../../examples/README.md) for interoperable Rust/Go/Node clients and servers, five concurrent application streams, flow control, file roundtrip, and transport bindings. All application data remains outside the core schema.

@@ -12,3 +12,5 @@ cargo doc --locked --no-deps
 (cd sdk/go && go test -mod=readonly -race ./... && go vet -mod=readonly ./...)
 (cd sdk/node && npm ci && npm run build && npm test)
 python3 scripts/interop.py
+(cd examples/quic-go && go test -mod=readonly -race ./... && go vet -mod=readonly ./...)
+python3 scripts/demo_smoke.py --built

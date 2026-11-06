@@ -217,3 +217,7 @@ node dist/conformance.js endpoint responder
 内容错误、RESET 或过早 EOF 都失败。CLI 不依赖 POSIX shell 或平台特定换行。
 `npm test` 真实启动并配对两个 endpoint，另有 Session、framing 和传输边界测试。
 EOF 和跨语言 runner 的超时由宿主处理。
+
+## Runnable application demos
+
+See the [demo guide](../../examples/README.md) for interoperable Rust/Go/Node clients and servers, five concurrent application streams, flow control, file roundtrip, and transport bindings. All application data remains outside the core schema.
