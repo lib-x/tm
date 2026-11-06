@@ -1,0 +1,16 @@
+version: v2
+clean: true
+plugins:
+  - remote: buf.build/community/neoeinstein-prost:v0.4.0
+    revision: 1
+    out: sdk/rust/src/generated
+  - remote: buf.build/protocolbuffers/go:v1.36.6
+    revision: 1
+    out: sdk/go/pb
+    opt:
+      - paths=source_relative
+  - remote: buf.build/bufbuild/es:v2.2.5
+    revision: 1
+    out: sdk/node/src/gen
+    opt:
+      - target=ts

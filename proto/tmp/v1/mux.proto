@@ -1,0 +1,83 @@
+syntax = "proto3";
+package tmp.v1;
+
+option go_package = "github.com/lib-x/tm/sdk/go/pb/tmp/v1;pb";
+
+// Each Packet is prefixed by a four-byte big-endian serialized length.
+// The carrier supplies ordered reliable bytes; it is NOT part of this schema.
+message Packet {
+  uint32 stream_id = 1; // 0 for link-scoped bodies only.
+  oneof body {
+    Hello hello = 10;
+    Welcome welcome = 11;
+    Open open = 12;
+    OpenAck open_ack = 13;
+    Data data = 14;
+    Window window = 15;
+    Reset reset = 16;
+    Ping ping = 17;
+    Pong pong = 18;
+    GoAway go_away = 19;
+  }
+}
+message Settings {
+  uint32 max_data = 1; // 1024..65536; default 16384.
+  uint32 stream_window = 2; // 4096..16777216; default 65536.
+  uint32 connection_window = 3; // 65536..268435456; default 1048576.
+  uint32 max_streams = 4; // 1..4096; default 256, incoming streams.
+}
+message Hello {
+  uint32 version = 1;
+  Settings settings = 2;
+  repeated string profiles = 3;
+}
+message Welcome {
+  uint32 version = 1;
+  Settings settings = 2;
+  repeated string profiles = 3;
+}
+enum Class {
+  INTERACTIVE = 0;
+  REALTIME = 1;
+  BULK = 2;
+}
+message Open {
+  string profile = 1; // Negotiated application protocol, e.g. terminal.v1.
+  string route = 2; // Opaque application-owned name, NEVER a dial target.
+  Class class = 3;
+  bytes metadata = 4; // Application-defined; at most 4096 bytes.
+}
+message OpenAck {}
+message Data {
+  bytes payload = 1;
+  bool fin = 2;
+}
+message Window {
+  uint32 credit = 1;
+}
+enum ErrorCode {
+  CANCELLED = 0;
+  PROTOCOL = 1;
+  FLOW_CONTROL = 2;
+  REFUSED = 3;
+  UNSUPPORTED = 4;
+  UNAUTHORIZED = 5;
+  RESOURCE_EXHAUSTED = 6;
+  INTERNAL = 7;
+}
+// reason is valid UTF-8, at most 256 bytes, in Reset and GoAway.
+message Reset {
+  ErrorCode code = 1;
+  string reason = 2;
+}
+message Ping {
+  fixed64 token = 1;
+}
+message Pong {
+  fixed64 token = 1;
+}
+message GoAway {
+  uint32 last_stream_id = 1;
+  ErrorCode code = 2;
+  string reason = 3;
+}

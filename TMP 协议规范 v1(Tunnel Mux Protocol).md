@@ -1,6 +1,8 @@
 # TMP 协议规范 v1(Tunnel Mux Protocol)
 
-状态:定稿,供实现。与《反向隧道库设计与实现规划》第 4 节冲突时以本文为准;差异列表见附录 B。配套的测试向量见附录 A,实现时应把它们作为 golden 测试。
+状态：已被替代，仅保留为历史 CBOR 草案，禁止据此实现新 SDK。当前规范见 [TMP Protobuf v1](docs/protocol-v1.md)，schema 见 [mux.proto](proto/tmp/v1/mux.proto)，旧稿设计问题见 [独立评审](docs/reviews/design-review.md)。新协议标识 `tmp.pb.v1`，与本稿 `tunnel.tmp1` 不兼容。
+
+原始草案说明：与《反向隧道库设计与实现规划》第 4 节冲突时以本文为准;差异列表见附录 B。配套的测试向量见附录 A,实现时应把它们作为 golden 测试。
 
 ## 0. 约定
 

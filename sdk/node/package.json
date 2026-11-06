@@ -1,0 +1,54 @@
+{
+  "name": "@lib-x/tmp",
+  "version": "0.1.0",
+  "description": "TMP Protobuf v1 SansIO session and byte stream adapters",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./framing": {
+      "types": "./dist/framing.d.ts",
+      "import": "./dist/framing.js"
+    },
+    "./transport": {
+      "types": "./dist/transport.d.ts",
+      "import": "./dist/transport.js"
+    },
+    "./model": {
+      "types": "./dist/gen/tmp/v1/mux_pb.d.ts",
+      "import": "./dist/gen/tmp/v1/mux_pb.js"
+    }
+  },
+  "bin": {
+    "tmp-conformance": "./dist/conformance.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "examples"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "conformance": "node dist/conformance.js",
+    "example": "npm run build && node examples/echo.mjs"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "2.2.5"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.10",
+    "typescript": "5.7.3"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lib-x/tm.git",
+    "directory": "sdk/node"
+  }
+}

@@ -1,0 +1,44 @@
+name: protocol-and-sdks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: bufbuild/buf-setup-action@v1
+        with:
+          version: '1.75.0'
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.27.3'
+          cache-dependency-path: sdk/go/go.sum
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '26.12.0'
+          cache: npm
+          cache-dependency-path: sdk/node/package-lock.json
+      - run: buf lint && buf breaking --against conformance/v1-baseline.binpb
+      - name: Check against PR base schema when available
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if git cat-file -e "$BASE_REF:buf.yaml" 2>/dev/null; then
+            buf breaking --against ".git#ref=$BASE_REF"
+          fi
+      - name: Verify generated output including missing tracked files
+        run: |
+          buf generate
+          generated_status="$(git status --porcelain=1 --untracked-files=all -- sdk/rust/src/generated sdk/go/pb sdk/node/src/gen)"
+          if [ -n "$generated_status" ]; then
+            printf '%s\n' "$generated_status"
+            exit 1
+          fi
+      - run: scripts/check.sh
